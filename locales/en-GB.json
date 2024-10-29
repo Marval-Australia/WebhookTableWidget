@@ -1,0 +1,41 @@
+﻿{
+	"manifest":
+    {
+		"WORKLISTCOUNT": "Display List",
+		"DISPLAYLIST": "Display List",
+		"LIST_VIEW": "List View",
+		"LIST": "List",
+		"DESCRIPTION": "Displays statistics for the service desk."
+	},
+	"widget":
+    {
+		"DASHBOARD": "Dashboard",
+		"LIST_VIEW": "List View",
+		"LIST": "List",
+		"WORKLISTCOUNT": "Display List",
+		"GAUGE_FOREGROUND_COLOUR": "Foreground Gauge Colour",
+		"REQUIRED_GAUGE_FOREGROUND_COLOUR": "Foreground Gauge Colour is a required field.",
+		"INVALID_GAUGE_FOREGROUND_COLOUR": "Invalid Foreground Gauge Colour (required format is #000 or #000000).",
+		"GAUGE_BACKGROUND_COLOUR": "Background Gauge Colour",
+		"REQUIRED_GAUGE_BACKGROUND_COLOUR": "Background Gauge Colour is a required field.",
+		"INVALID_GAUGE_BACKGROUND_COLOUR": "Invalid Background Gauge Colour (required format is #000 or #000000).",
+		"COUNTER_COLOUR": "Counter Colour",
+		"REQUIRED_LIST": "List is a required field.",
+		"REQUIRED_COUNTER_COLOUR": "Counter Colour is a required field.",
+		"INVALID_COUNTER_COLOUR": "Invalid Counter Colour (required format is #000 or #000000).",
+		"COUNTER_HIGHLIGHT_COLOUR": "Counter Highlight Colour",
+		"REQUIRED_COUNTER_HIGHLIGHT_COLOUR": "Counter Highlight Colour is a required field.",
+		"INVALID_COUNTER_HIGHLIGHT_COLOUR": "Invalid Counter Highlight Colour (required format is #000 or #000000).",
+		"COUNTER_BORDER_COLOUR": "Counter Border Colour",
+		"REQUIRED_COUNTER_BORDER_COLOUR": "Counter Border Colour is a required field.",
+		"INVALID_COUNTER_BORDER_COLOUR": "Invalid Counter Border Colour (required format is #000 or #000000).",
+		"COUNTER_TEXT_COLOUR": "Counter Text Colour",
+		"REQUIRED_COUNTER_TEXT_COLOUR": "Counter Text Colour is a required field.",
+		"INVALID_COUNTER_TEXT_COLOUR": "Invalid Counter Text Colour (required format is #000 or #000000).",
+		"K": "k",
+        "OPEN_REQUESTS_WITHIN_SLA_RESPONSE_TIME": "Open Requests Within SLA Response Time",
+		"OPEN_REQUESTS_WITHIN_SLA_FIX_TIME": "Open Requests Within SLA Fix Time",
+		"REQUESTS_LOGGED_TODAY": "Requests Logged Today",
+		"REQUESTS_SOLVED_TODAY": "Requests Solved Today"
+	}
+}

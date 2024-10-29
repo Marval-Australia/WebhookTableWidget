@@ -1,0 +1,33 @@
+﻿{
+	"Name": "MarvalSoftware.Widgets.DisplayList",
+	"Version": "0.6",
+	"DisplayName": "Display List",
+	"Description": "@@DESCRIPTION",
+	"DefaultLocale": "en-GB",
+	"Icons":
+	{
+		"16": "images/display_list_16.png",
+		"128": "images/display_list_128.png"
+	},
+	"Scripts":
+	[
+		"DisplayList.js"
+	],
+	"StartupObject": "MarvalSoftware.Widgets.DisplayList",
+	"DefaultSize":
+	{
+		"Height": 350,
+		"Width": 800
+	},
+	"MinSize":
+	{
+	"Height": 150,
+		"Width": 500
+	},
+	"MaxSize":
+	{
+		"Height": 846,
+		"Width": 1200
+	},
+	"IsResizable": true
+}
