@@ -1,4 +1,4 @@
-﻿/// <reference path="~/RFP/Assets/Scripts/MarvalSoftware/MarvalSoftware.js"/>
+/// <reference path="~/RFP/Assets/Scripts/MarvalSoftware/MarvalSoftware.js"/>
 /// <reference path="~/RFP/Assets/Scripts/MarvalSoftware/UI/Controls/ScriptManager.js"/>
 /// <reference path="~/RFP/Assets/Scripts/MarvalSoftware/UI/Controls/Widgets/TileWidget.js"/>
 /// <reference path="~/RFP/Assets/Scripts/MarvalSoftware/UI/Dom/Dom.js"/>
@@ -23,7 +23,7 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
         /// <summary>
         /// Sets up the dashboard widgets preferences.
         /// </summary>
-  
+
         MarvalSoftware.UI.Controls.Widgets.TileWidget.prototype._setupPreferences.call(this);
         this._createPreference(
             "plugincallback",
@@ -36,60 +36,33 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
         var plugincallback = MarvalSoftware.Serialization.Json.deserialize(this._preferences["plugincallback"].getValue());
         if (plugincallback) {
             this._defaultLinkUrl = plugincallback;
+            this._defaultLinkUrl = MarvalSoftware.UI.WebHelper.getApplicationPath();
         }
-         this._createPreference(
-             "counterColour",
-             this._services.resource.getString("COUNTER_COLOUR"),
-             "#333",
-             MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Controls.ColourInput,
-             { automaticColour: "#333" },
-        [
-                new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RequiredField(this._services.resource.getString("REQUIRED_COUNTER_COLOUR")),
-                 new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RegularExpression(
-                     this._services.resource.getString("INVALID_COUNTER_COLOUR"),
-                     /^#[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/
-                )
-             ]
-         );
-         this._createPreference(
-            "counterHighlightColour",
-            this._services.resource.getString("COUNTER_HIGHLIGHT_COLOUR"),
-            "#AAA",
-            MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Controls.ColourInput,
-            { automaticColour: "#AAA" },
-            [
-                new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RequiredField(this._services.resource.getString("REQUIRED_COUNTER_HIGHLIGHT_COLOUR")),
-                new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RegularExpression(
-                    this._services.resource.getString("INVALID_COUNTER_HIGHLIGHT_COLOUR"),
-                    /^#[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/
-                )
-            ]
-        );
         this._createPreference(
-            "counterBorderColour",
-            this._services.resource.getString("COUNTER_BORDER_COLOUR"),
-            "#000",
+            "tableHeaderColour",
+            this._services.resource.getString("TABLE_HEADER_COLOUR"),
+            "#4F81BD",
             MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Controls.ColourInput,
-            { automaticColour: "#000" },
+            { automaticColour: "#4F81BD" },
             [
                 new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RequiredField(this._services.resource.getString("REQUIRED_COUNTER_BORDER_COLOUR")),
                 new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RegularExpression(
-                    this._services.resource.getString("INVALID_COUNTER_BORDER_COLOUR"),
+                    this._services.resource.getString("TABLE_HEADER_COLOUR"),
                     /^#[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/
                 )
             ]
         );
         this._createPreference(
             "counterTextColour",
-            this._services.resource.getString("COUNTER_TEXT_COLOUR"),
-            "#FFF",
+            this._services.resource.getString("COUNTER_ROW_COLOUR"),
+            "#DCE6F1",
             MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Controls.ColourInput,
-            { automaticColour: "#FFF" },
+            { automaticColour: "#DCE6F1" },
             [
-                new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RequiredField(this._services.resource.getString("REQUIRED_COUNTER_TEXT_COLOUR")),
+                //    new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RequiredField(this._services.resource.getString("REQUIRED_COUNTER_TEXT_COLOUR")),
                 new MarvalSoftware.UI.Controls.Widgets.TileWidget.Preferences.Validators.RegularExpression(
                     this._services.resource.getString("INVALID_COUNTER_TEXT_COLOUR"),
-                    /^#[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$/
+                    /^#[a-fA-F0-9]{3}([a-fA-F0-9]{3})?$|^$/
                 )
             ]
         );
@@ -102,7 +75,6 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
         MarvalSoftware.UI.Controls.Widgets.TileWidget.prototype._setupStyles.call(this);
         this._styles.contentElement.textAlign = "center";
         this._styles.contentElement.padding = "0";
-       // this._styles.contentElement.overflow = "scroll";
         MarvalSoftware.augment(this._styles, {
             aElement: { display: "inline-block", margin: "10px", height: "130px", width: "150px", verticalAlign: "top", textDecoration: "none" },
             gaugeSvgElement: { margin: "15px 0" },
@@ -123,8 +95,8 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
         }
     },
     _refresh: function () {
-        console.log("Running refresh function");
-        
+
+
         /// <summary>
         /// Refreshes the dashboard widget.
         /// </summary>
@@ -133,9 +105,9 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
 
         } else {
             this._renderDisplayListStatistics();
-        
+
         }
-        
+
         this._setIsLoading(false);
 
         if (this._getDisplayListStatisticsRequest && this._getDisplayListStatisticsRequest.isExecuting) {
@@ -145,29 +117,79 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
     },
     _loadDisplayListStatistics: function (dashboardStatistics) {
 
-     
+
         this._renderDisplayListStatistics();
 
-      
+
         this._setIsLoading(false);
     },
     _renderDisplayListStatistics: function () {
         /// <summary>
-        
+
         /// Remders dashboard statistics.
         /// </summary>
         var that = this;
 
-       var PluginCallBackHREF = this._preferences["plugincallback"].getValue();
-        console.log("Full preferences is ", PluginCallBackHREF);
+        var PluginCallBackHREF = this._preferences["plugincallback"].getValue();
+
         const tagValue = PluginCallBackHREF.split("tag=")[1];
         this._titleElement.innerHTML = tagValue;
-        $.get(PluginCallBackHREF, function(dataText) {
-            var data = JSON.parse(dataText);
 
-    var divElement = document.createElement("DIV");
-    
-    var pageData = $(`
+
+        $('a[href="/MSM"]').attr('href', PluginCallBackHREF);
+        $('a[href="' + PluginCallBackHREF + '"]').filter(function () {
+            return $(this).css('background-image').includes("tile_widget_default_link_icon.png");
+        }).css({
+            'background': 'none',
+            'color': '#696969',
+            'font-size': '12px',
+            'text-align': 'center',
+            'line-height': '16px',
+            'font-weight': 'bold',
+            'padding-right': '16px'
+        }).text('CSV')
+            .attr('title', 'Download as CSV');
+
+        $('a[href="' + PluginCallBackHREF + '"]').on('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            // Fetch JSON data
+            $.get(PluginCallBackHREF, function (dataText) {
+                var data = JSON.parse(dataText);
+
+                // Convert JSON data to CSV
+                function JSONtoCSV(json) {
+                    const items = json;
+                    const replacer = (key, value) => value === null ? '' : value;
+                    const header = Object.keys(items[0]);
+                    const csv = [
+                        header.join(','), // header row first
+                        ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+                    ].join('\r\n');
+                    return csv;
+                }
+
+                const csvData = JSONtoCSV(data);
+
+                // Download CSV file
+                const blob = new Blob([csvData], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'data.csv';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+        });
+
+
+        $.get(PluginCallBackHREF, function (dataText) {
+            var data = JSON.parse(dataText);
+            var divElement = document.createElement("DIV");
+
+            var pageData = $(`
         <table style="
             border-collapse: collapse;
             
@@ -176,7 +198,7 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
             color: #333;
         ">
             <thead>
-                <tr style="
+                <tr class="header-color"  style="
                     background-color: #4F81BD; 
                     color: white;
                     font-weight: bold;
@@ -186,46 +208,41 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
             <tbody></tbody>
         </table>
     `);
-    
-    var headers = Object.keys(data[0]);
-    console.log("Headers are ", headers);
-    headers.forEach(function(key) {
-        pageData.find("thead tr").append("<th style='padding: 0px; border: 1px solid #A6A6A6;'>" + key + "</th>");
-    });
-    
 
-    data.forEach(function(item, index) {
-        var rowColor = index % 2 === 0 ? "#DCE6F1" : "#FFFFFF"; 
-        var row = $("<tr style='background-color: " + rowColor + ";'></tr>");
-        headers.forEach(function(key) {
-            row.append("<td style='padding: 8px; border: 1px solid #A6A6A6; text-align: center;'>" + (item[key] !== null ? item[key] : "") + "</td>");
+            var headers = Object.keys(data[0]);
+
+            headers.forEach(function (key) {
+                pageData.find("thead tr").append("<th style='padding: 0px; border: 1px solid #A6A6A6;'>" + key + "</th>");
+            });
+
+
+            data.forEach(function (item, index) {
+                var rowColor = index % 2 === 0 ? "#DCE6F1" : "#FFFFFF";
+                var rowClass = index % 2 === 0 ? "alternate-row" : "normal-row";
+
+                var row = $("<tr style='background-color: " + rowColor + "' class='" + rowClass + "'></tr>");
+                headers.forEach(function (key) {
+                    row.append("<td style='padding: 8px; border: 1px solid #A6A6A6; text-align: center;'>" + (item[key] !== null ? item[key] : "") + "</td>");
+                });
+                pageData.find("tbody").append(row);
+            });
+
+            $(that._contentElement).empty().append(pageData);
+            var textColour = that._preferences["counterTextColour"].getValue()
+
+            $('.alternate-row').css('background-color', textColour);
+            var pagerText = "TestText";
+            var pagerTitle = "TestTitle";
+
+            var tableHeaderColour = that._preferences["tableHeaderColour"].getValue()
+            $('.header-color').css('background-color', tableHeaderColour);
+            var itemsText = pagerText.match(/(\d+) items\./);
+
         });
-        pageData.find("tbody").append(row);
-    });
-    
-    console.log("Page data is ", pageData);
-    $(that._contentElement).empty().append(pageData);  
-
-    var pagerText = "TestText";
-    var pagerTitle = "TestTitle";
-
-   
-    var itemsText = pagerText.match(/(\d+) items\./);
-  
-    if (itemsText && itemsText[1]) {
-
-   
-        console.log("Have title as ", pagerTitle);
-   
-        console.log("Number is ", itemsText[1]);
-    } else {
-        console.log("Text not found");
-    }
-});
 
         var currentUserId = MarvalSoftware.UI.Controls.ScriptManager.getInstance().getCurrentUserId();
         var currentUserCIId = MarvalSoftware.UI.Controls.ScriptManager.getInstance().getCurrentUserCIId();
-          },
+    },
     _handleGetDisplayListStatisticsError: function () {
         /// <summary>
         /// Handles the GetDisplayListStatistics error.
