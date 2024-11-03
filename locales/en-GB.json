@@ -1,4 +1,4 @@
-﻿{
+{
 	"manifest":
     {
 		"WORKLISTCOUNT": "Display List",
@@ -30,10 +30,12 @@
 		"REQUIRED_COUNTER_BORDER_COLOUR": "Counter Border Colour is a required field.",
 		"INVALID_COUNTER_BORDER_COLOUR": "Invalid Counter Border Colour (required format is #000 or #000000).",
 		"COUNTER_TEXT_COLOUR": "Counter Text Colour",
+		"COUNTER_ROW_COLOUR": "Counter Alternate Row Colour",
+		"TABLE_HEADER_COLOUR": "Table Header Colour",
 		"REQUIRED_COUNTER_TEXT_COLOUR": "Counter Text Colour is a required field.",
 		"INVALID_COUNTER_TEXT_COLOUR": "Invalid Counter Text Colour (required format is #000 or #000000).",
 		"K": "k",
-        "OPEN_REQUESTS_WITHIN_SLA_RESPONSE_TIME": "Open Requests Within SLA Response Time",
+                "OPEN_REQUESTS_WITHIN_SLA_RESPONSE_TIME": "Open Requests Within SLA Response Time",
 		"OPEN_REQUESTS_WITHIN_SLA_FIX_TIME": "Open Requests Within SLA Fix Time",
 		"REQUESTS_LOGGED_TODAY": "Requests Logged Today",
 		"REQUESTS_SOLVED_TODAY": "Requests Solved Today"
