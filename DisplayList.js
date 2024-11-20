@@ -95,7 +95,7 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
         }
     },
     _refresh: function () {
-
+        this._setIsLoading(true);
 
         /// <summary>
         /// Refreshes the dashboard widget.
@@ -151,19 +151,19 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
             .attr('title', 'Download as CSV');
 
         $('a[href="' + PluginCallBackHREF + '"]').on('click', function (event) {
-            event.preventDefault(); // Prevent default link behavior
+            event.preventDefault(); 
 
-            // Fetch JSON data
+          
             $.get(PluginCallBackHREF, function (dataText) {
                 var data = JSON.parse(dataText);
 
-                // Convert JSON data to CSV
+              
                 function JSONtoCSV(json) {
                     const items = json;
                     const replacer = (key, value) => value === null ? '' : value;
                     const header = Object.keys(items[0]);
                     const csv = [
-                        header.join(','), // header row first
+                        header.join(','), 
                         ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
                     ].join('\r\n');
                     return csv;
@@ -171,7 +171,7 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
 
                 const csvData = JSONtoCSV(data);
 
-                // Download CSV file
+               
                 const blob = new Blob([csvData], { type: 'text/csv' });
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -188,57 +188,81 @@ MarvalSoftware.Widgets.DisplayList = MarvalSoftware.UI.Controls.Widgets.TileWidg
         $.get(PluginCallBackHREF, function (dataText) {
             var data = JSON.parse(dataText);
             var divElement = document.createElement("DIV");
-
+        
             var pageData = $(`
-        <table style="
-            border-collapse: collapse;
-            
-            width: 100%;
-            font-family: Arial, sans-serif;
-            color: #333;
-        ">
-            <thead>
-                <tr class="header-color"  style="
-                    background-color: #4F81BD; 
-                    color: white;
-                    font-weight: bold;
-                    text-align: center;
-                "></tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    `);
-
+                <table style="
+                    border-collapse: collapse;
+                    width: 100%;
+                    font-family: Arial, sans-serif;
+                    color: #333;
+                ">
+                    <thead>
+                        <tr class="header-color"  style="
+                            background-color: #4F81BD; 
+                            color: white;
+                            font-weight: bold;
+                            text-align: center;
+                        "></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `);
+        
             var headers = Object.keys(data[0]);
-
+        
             headers.forEach(function (key) {
                 pageData.find("thead tr").append("<th style='padding: 0px; border: 1px solid #A6A6A6;'>" + key + "</th>");
             });
-
-
+        
+          
+            function convertJSONDate(jsonDate) {
+                const match = jsonDate.match(/\/Date\((\d+)\)\//);
+                if (match) {
+                    const timestamp = parseInt(match[1], 10);
+                    const date = new Date(timestamp);
+        
+               
+                    const year = date.getFullYear();
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const hours = date.getHours().toString().padStart(2, '0');
+                    const minutes = date.getMinutes().toString().padStart(2, '0');
+                    const seconds = date.getSeconds().toString().padStart(2, '0');
+        
+                    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                }
+                return jsonDate; 
+            }
+        
             data.forEach(function (item, index) {
                 var rowColor = index % 2 === 0 ? "#DCE6F1" : "#FFFFFF";
                 var rowClass = index % 2 === 0 ? "alternate-row" : "normal-row";
-
+        
                 var row = $("<tr style='background-color: " + rowColor + "' class='" + rowClass + "'></tr>");
                 headers.forEach(function (key) {
-                    row.append("<td style='padding: 8px; border: 1px solid #A6A6A6; text-align: center;'>" + (item[key] !== null ? item[key] : "") + "</td>");
+                    var cellValue = item[key] !== null ? item[key] : "";
+                    if (typeof cellValue === "string" && cellValue.startsWith("/Date(")) {
+                        cellValue = convertJSONDate(cellValue);
+                    }
+                    row.append("<td style='padding: 8px; border: 1px solid #A6A6A6; text-align: center;'>" + cellValue + "</td>");
                 });
                 pageData.find("tbody").append(row);
             });
-
+        
             $(that._contentElement).empty().append(pageData);
-            var textColour = that._preferences["counterTextColour"].getValue()
-
+        
+            var textColour = that._preferences["counterTextColour"].getValue();
             $('.alternate-row').css('background-color', textColour);
+        
             var pagerText = "TestText";
             var pagerTitle = "TestTitle";
-
-            var tableHeaderColour = that._preferences["tableHeaderColour"].getValue()
+        
+            var tableHeaderColour = that._preferences["tableHeaderColour"].getValue();
             $('.header-color').css('background-color', tableHeaderColour);
+        
             var itemsText = pagerText.match(/(\d+) items\./);
-
         });
+        
 
         var currentUserId = MarvalSoftware.UI.Controls.ScriptManager.getInstance().getCurrentUserId();
         var currentUserCIId = MarvalSoftware.UI.Controls.ScriptManager.getInstance().getCurrentUserCIId();
